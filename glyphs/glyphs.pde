@@ -1,5 +1,5 @@
 MobilityAgentManager mobs;
-Glyphs title;
+GlyphCollection title;
 int networkSize = 25;
 int major = 6;
 RoadNetwork rn;
@@ -19,7 +19,7 @@ void setup() {
 
   stroke(255);
   noFill();
-  title = new Glyphs("city scope  mobility ver");
+  title = new GlyphCollection("city scope  mobility ver");
   rn = new RoadNetwork(networkSize, major);
   mobs = new MobilityAgentManager(100, rn);
 

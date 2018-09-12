@@ -335,13 +335,13 @@ Glyph mapFromAscii(char c) {
     }
 }
 
-class Glyphs {
+class GlyphCollection {
   
   private Glyph[] word;
   private int w;
   private int h = 5;
 
-  Glyphs(String _word){
+  GlyphCollection(String _word){
     String uc = _word.toUpperCase();
     this.word = new Glyph[uc.length()];
     this.w = 0;
