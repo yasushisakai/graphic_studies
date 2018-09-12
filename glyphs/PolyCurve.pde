@@ -33,24 +33,24 @@ class PolyCurve {
     }
   }
 
-  void simplify() {
-    IntList deleteList = new IntList();
-    for(int i = 1; i < this.curves.size(); i++){
-      if(this.areLines(i-1, i)){
-        Line l = (Line)this.curves.get(i - 1);
-        Line m = (Line)this.curves.get(i);
-        float angle = PVector.angleBetween(l.direction(), m.direction());
-        if(angle == 0.0){ 
-          deleteList.append(i-1);
-          m.s = l.s;
-        }
-      }
-    } 
-
-    for(int i:deleteList){
-      this.curves.remove(i);
-    }
-  }
+  // FIXME
+  // void simplify() {
+  //   IntList deleteList = new IntList();
+  //   for(int i = 1; i < this.curves.size(); i++){
+  //     if(this.areLines(i-1, i)){
+  //       Line l = (Line)this.curves.get(i - 1);
+  //       Line m = (Line)this.curves.get(i);
+  //       float angle = PVector.angleBetween(l.direction(), m.direction());
+  //       if(angle == 0.0){ 
+  //         deleteList.append(i-1);
+  //         m.s = l.s;
+  //       }
+  //     }
+  //   } 
+  //   for(int i:deleteList){
+  //     this.curves.remove(i);
+  //   }
+  // }
 
   void rightShift(float shift){
     for(int i = 0; i < this.curves.size(); i ++){
@@ -83,7 +83,6 @@ class PolyCurve {
       }
     }
 
-
     this.len = this.getLength(); // FIXME: too many loops
   }
 
@@ -105,14 +104,13 @@ class PolyCurve {
       return; // does nothing
     }
 
-    if(l.direction() == m.direction()) return;
+    if(PVector.angleBetween(l.direction(), m.direction()) == 0.0) return;
 
     this.len -= filletDist * 2;
 
     PVector tempEnd = l.pointAtDist(l.len - filletDist);
     PVector tempStart = m.pointAtDist(filletDist);
     
-
     BCurve newBCurve = new BCurve(tempEnd, l.e, m.s, tempStart);
 
     l.e = tempEnd;
@@ -124,8 +122,6 @@ class PolyCurve {
     this.len += newBCurve.len;
     this.curves.add(j, newBCurve);
   }
-
-  
 
   float getLength(){
     float tempLen = 0;

@@ -3,48 +3,65 @@ import ai.pathfinder.*;
 class RoadNetwork {
 
   Pathfinder astar;
-  ArrayList<Node> nodes; // redundant!
-
-  RoadNetwork (int row) {
+  RoadNetwork (int row, int majorEvery) {
     this.astar = new Pathfinder();
-    this.nodes = new ArrayList<Node>();
+    ArrayList<Node> nodes = new ArrayList<Node>();
     
     for(int i = 0; i < pow(row, 2); i++){
-      this.nodes.add(new Node(i % row * (width / row), i/row * (width / row)));
+      nodes.add(new Node(i % row * (width / row), i/row * (width / row)));
     }
 
     for (int i = 0; i < pow(row, 2); i++){
       int x = i % row;
       int y = i / row;
-      
-      if(x < row - 1) {
-        int leftNode = x + 1 + y * row;
-        this.nodes.get(i).connectBoth(this.nodes.get(leftNode));
-      } 
 
-      if(y < row - 1) {
+      // connecting right
+      if((y % majorEvery == 0 || y == row - 1) && x < row - 1) {
+        int leftNode = x + 1 + y * row;
+        nodes.get(i).connectBoth(nodes.get(leftNode));
+      } 
+      // connecting below
+      if((x % majorEvery == 0 || x == row - 1) && y < row - 1) {
         int lowerNode = x + (y + 1) * row;
-        this.nodes.get(i).connectBoth(this.nodes.get(lowerNode));
+        nodes.get(i).connectBoth(nodes.get(lowerNode));
       }
     }
 
-    this.astar.addNodes(this.nodes);
+    for(int i = 0; i < nodes.size(); i++){
+      Node n = (Node) nodes.get(i);
+      if(n.links.size() == 0){
+        nodes.remove(i);
+        i--;
+      }
+    }
+
+    this.astar.addNodes(nodes);
   }
 
   void drawNodes(){
     for(Node n: (ArrayList<Node>)this.astar.nodes) {
       pushStyle();
       noFill();
-      point(n.x, n.y);
-      ellipse(n.x, n.y, 9, 9);  
+      // point(n.x, n.y);
+      ellipse(n.x, n.y, 3, 3);  
       popStyle();
     } 
   }
 
+  void drawConnections(){
+    for(int i=0; i<this.astar.nodes.size(); i++){
+      Node n = (Node)this.astar.nodes.get(i);
+      for(int j = 0; j < n.links.size(); j++){
+        Connector c = (Connector) n.links.get(j); 
+        line(n.x, n.y, c.n.x, c.n.y);
+      }
+    }
+  }
+
   void showPath(int start, int end) {
     ArrayList<Node> path = this.astar.aStar(
-      (Node) this.nodes.get(start),
-      (Node) this.nodes.get(end)
+      (Node) this.astar.nodes.get(start),
+      (Node) this.astar.nodes.get(end)
     );
 
     for(int i=0;i<path.size()-1;i++){
@@ -64,8 +81,8 @@ class RoadNetwork {
 
   PolyCurve getCurve(int start, int end){
     ArrayList<Node> vertices = this.astar.aStar(
-        (Node)this.nodes.get(start),
-        (Node)this.nodes.get(end)
+        (Node)this.astar.nodes.get(start),
+        (Node)this.astar.nodes.get(end)
         ); 
 
    return new PolyCurve(vertices); 

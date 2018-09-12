@@ -302,6 +302,25 @@ Glyph[] human = new Glyph[] {
   })
 };
 
+Glyph car = new Glyph("car", 7, new boolean[]{
+  true, false, true, true, true, false, true,    
+  true, false, true, false, true, false, true,    
+  true, false, true, false, true, false, true,    
+  false, false, true, false, true, false, false,
+  true, true, true, false, true, true, true, 
+  true, false, false, false, false, false, true, 
+  true, false, false, false, false, false, true, 
+  true, false, false, false, false, false, true, 
+  true, false, false, false, false, false, true, 
+  true, false, false, false, false, false, true, 
+  true, true, true, false, true, true, true, 
+  false, false, true, true, true, false, false,
+  true, false, true, false, true, false, true,    
+  true, false, true, false, true, false, true,    
+  true, false, true, false, true, false, true,    
+});
+
+
 Glyph mapFromAscii(char c) {
     byte b = byte(c);
 

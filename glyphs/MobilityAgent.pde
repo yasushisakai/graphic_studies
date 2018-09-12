@@ -1,38 +1,59 @@
-// this should be an abstract agent
+// this should be an abstract agent ?
+// at this point agent behavior is the same
 class MobilityAgent {
-  PGraphics[] g;
-  PolyCurve path;
-  PVector pos;
-  float angle;
-  float t = 0;
-  int state = 0; // TODO: enum
-  float velocity = 0;
-  boolean isVisible;
-  float turnRadius = 50;
-  float laneWidth = 5;
-  float speed; // pix
+  
+  public String type;
+  private PGraphics[] g;
+  private float speed; // in pix
+  private float turnRadius = 20;
+  private float laneWidth = 5;
+  
+  // these we dont't need to change
+  private PolyCurve path;
+  private boolean isVisible;
+  private PVector pos;
+  private float velocity;
+  private float tSpeed;
+  private float angle;
+  private float t;
+  private int state; // TODO: enum
 
-  MobilityAgent (PolyCurve path, float maxSpeed) {
-    // g = human.renderGraphics(255);
-    
-    g = new PGraphics[]{
-      human[0].renderGraphics(255),
-      human[1].renderGraphics(255),
-      human[2].renderGraphics(255),
-    };
+  MobilityAgent (
+      String type,
+      Glyph[] gs, 
+      float speed, 
+      float turnRadius, 
+      float laneWidth
+    ) {
 
+    this.type = type;
+    this.g = new PGraphics[gs.length]; 
+    for(int i=0; i<gs.length; i++){
+      this.g[i] = gs[i].renderGraphics();
+    }
+
+    this.speed = speed;
+    this.turnRadius = turnRadius;
+    this.laneWidth = laneWidth;
+    this.isVisible = false;
+  }
+
+  void setPath(PolyCurve path) {
+    // customises path to fit mode of mobility
     this.path = path;
-    // this.path.simplify();
     this.path.rightShift(this.laneWidth);
     this.path.smooth(this.turnRadius);
-    this.state = 1;
+
     this.isVisible = true;
+    this.state = 1;
+    this.t = 0.0;
     this.pos = this.path.getStart();
-    this.speed = maxSpeed / this.path.len;
+    this.tSpeed = this.speed / this.path.len;
+    this.velocity = 0.0;
   }
 
   void update() {
-    if (t > 1) {
+    if (this.t > 1) {
       this.isVisible = false;
       return; // stop;
     }
@@ -46,32 +67,35 @@ class MobilityAgent {
         }
       break;
       case 2:
-        if(this.velocity > 0.5){
-          this.velocity -= 0.5;
+        if(this.velocity > 0.05){
+          this.velocity -= 0.05;
         }
       break;
     }
 
     float[] posDir = this.path.evalAt(t);
-    this.pos = new PVector(posDir[0], posDir[1]);
+    this.pos = new PVector(int(posDir[0]), int(posDir[1]));
     this.angle = posDir[2]; 
 
-    t += sigmoid(this.velocity) * this.speed;
+    this.t += sigmoid(this.velocity) * this.tSpeed;
   }
 
   void switchState(int s) {
     this.state = s;
   }
 
+  void drawPath() {
+    this.path.draw();
+  }
+
   void draw() {
-    
-    PGraphics whichG = this.g[(frameCount/5) % this.g.length];
+    // this.drawPath(); 
+    PGraphics whichG = this.g[(frameCount/3) % this.g.length];
     if(this.isVisible){
-      // this.path.draw();
       pushMatrix();
       translate(this.pos.x, this.pos.y);
       rotate(this.angle + PI * 0.5);
-      image(whichG, -whichG.width/2, -whichG.height/2);
+      image(whichG, -whichG.width / 2, -whichG.height / 2);
       popMatrix();
     }
   }

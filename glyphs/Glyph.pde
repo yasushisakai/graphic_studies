@@ -22,10 +22,10 @@ class Glyph {
     }
   }
 
-  PGraphics renderGraphics(color strokeColor) {
+  PGraphics renderGraphics() {
     PGraphics g = createGraphics(this.w, this.h);
     g.beginDraw(); 
-    g.stroke(strokeColor);
+    g.stroke(255);
     for(int i = 0; i < this.w; i++) {
       for(int j = 0; j < this.h; j++) {
         if (this.bin[i + j * this.w]) g.point(i, j);
