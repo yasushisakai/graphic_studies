@@ -28,7 +28,7 @@ class MobilityAgentManager {
 
   // TODO: enum
   private MobilityAgent createPedestrian(){
-    return new MobilityAgent("pedestrian", human, 0.1, 0, 2);
+    return new MobilityAgent("pedestrian", human, 0.1, 0, 0);
   }
 
   void addPedestrians(int num){

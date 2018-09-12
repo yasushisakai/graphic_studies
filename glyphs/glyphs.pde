@@ -15,7 +15,8 @@ void  settings(){
 }
 
 void setup() {
-  frameRate(60);
+  // frameRate(60);
+  frameRate(30);
   background(0);
 
   stroke(255);
@@ -25,9 +26,15 @@ void setup() {
   sn = new SidewalkNetwork(networkSize, major);
   mobs = new MobilityAgentManager(0, rn, sn);
 
-  mobs.addPedestrians(300);
-  mobs.addPEVs(200);
+    
+  mobs.addPedestrians(3);
+  mobs.addPEVs(3);
+  mobs.addCars(3);
+  
+  mobs.addPedestrians(1000);
+  mobs.addPEVs(400);
   mobs.addCars(100);
+
 
   unit = width / 4;
   boxSize = 140;
