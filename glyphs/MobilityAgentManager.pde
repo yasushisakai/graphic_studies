@@ -1,10 +1,12 @@
 class MobilityAgentManager {
   ArrayList<MobilityAgent> agents;
   RoadNetwork roadNetwork;
+  SidewalkNetwork sidewalkNetwork;
 
-  MobilityAgentManager(int numAgents,RoadNetwork roadNetwork) {
+  MobilityAgentManager(int numAgents, RoadNetwork roadNetwork, SidewalkNetwork sidewalkNetwork) {
     this.agents = new ArrayList<MobilityAgent>();
     this.roadNetwork = roadNetwork;
+    this.sidewalkNetwork = sidewalkNetwork;
 
     for(int i = 0; i < numAgents; i++) {
       this.agents.add(this.createRandomAgent());   
@@ -29,8 +31,23 @@ class MobilityAgentManager {
     return new MobilityAgent("pedestrian", human, 0.1, 0, 2);
   }
 
+  void addPedestrians(int num){
+    for(int i =0;i<num; i++)
+    this.agents.add(this.createPedestrian());
+  }
+  
+  void addCars(int num){
+    for(int i =0;i<num; i++)
+    this.agents.add(this.createCar());
+  }
+
   private MobilityAgent createPEV(){
     return new MobilityAgent("PEV", new Glyph[]{PEV, bike}, 2, 15, 12);
+  }
+  
+  void addPEVs(int num){
+    for(int i =0;i<num; i++)
+    this.agents.add(this.createPEV());
   }
   
   private MobilityAgent createCar(){
@@ -42,10 +59,13 @@ class MobilityAgentManager {
       MobilityAgent agent = this.agents.get(i);
 
       if(!agent.isVisible) {
-        agent.setPath(this.roadNetwork.getRandomCurve());
+        if(agent.type.equals("pedestrian")){
+          agent.setPath(this.sidewalkNetwork.getRandomCurve());
+        } else {
+          agent.setPath(this.roadNetwork.getRandomCurve());
+        }
       }
 
-      
       for(int j = i + 1; j < this.agents.size(); j++){
         MobilityAgent jAgent = this.agents.get(j);
         if(!jAgent.isVisible) continue;
@@ -59,7 +79,6 @@ class MobilityAgentManager {
         }
       }
       
-
       agent.update();
     } 
   }

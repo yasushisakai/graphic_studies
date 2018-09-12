@@ -3,6 +3,7 @@ GlyphCollection title;
 int networkSize = 25;
 int major = 6;
 RoadNetwork rn;
+SidewalkNetwork sn;
 
 int unit; // TODO: clean
 int boxSize;
@@ -21,7 +22,12 @@ void setup() {
   noFill();
   title = new GlyphCollection("city scope  mobility ver");
   rn = new RoadNetwork(networkSize, major);
-  mobs = new MobilityAgentManager(100, rn);
+  sn = new SidewalkNetwork(networkSize, major);
+  mobs = new MobilityAgentManager(0, rn, sn);
+
+  mobs.addPedestrians(300);
+  mobs.addPEVs(200);
+  mobs.addCars(100);
 
   unit = width / 4;
   boxSize = 140;
@@ -32,7 +38,8 @@ void draw(){
 
   pushMatrix();
   translate(width/(networkSize * 2), height/(networkSize * 2));
-  // rn.drawNodes();
+  // sn.drawConnections();
+  // sn.drawNodes();
   // rn.drawConnections();
   mobs.update();
   mobs.draw();

@@ -56,6 +56,16 @@ class Line extends Curve{
     return PVector.add(this.s, PVector.mult(sub, t));
   }
 
+  ArrayList<PVector> divide(int num) {
+    ArrayList<PVector> points = new ArrayList<PVector>();
+    for(int i = 0; i < num ; i++){
+      float t = (1.0 / num) * i;
+      points.add(this.pointAt(t));
+    }
+    points.add(this.e);
+    return points;
+  }
+
   @Override
   float getLength() {
     return PVector.dist(this.s, this.e);
