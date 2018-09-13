@@ -31,7 +31,6 @@ void setup() {
 void draw(){
   background(0);
   
-  image(title.draw(), 10, 10);
 
   pushMatrix();
   translate(width/(networkSize * 2), height/(networkSize * 2));
@@ -40,6 +39,7 @@ void draw(){
   popMatrix();
 
   image(blocks.draw(), 0, 0);
+  image(title.draw(), 10, 10);
 }
 
 void mouseReleased() {

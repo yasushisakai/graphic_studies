@@ -12,7 +12,7 @@ class GlyphCollection {
       char c = uc.charAt(i);
       Glyph gl = mapFromAscii(c);
       w += gl.w + 1;  
-      this.word[i] = g;
+      this.word[i] = gl;
     } 
     w--;
     this.g = createGraphics(w, this.h, P2D);
@@ -20,7 +20,7 @@ class GlyphCollection {
     this.g.beginDraw();
     this.g.stroke(255);
     this.g.noFill();
-    for(int i=0; i < uc.length; i++){
+    for(int i=0; i < uc.length(); i++){
       this.g.image(this.word[i].renderGraphics(), cursor, 0);
       cursor += this.word[i].w + 1;
     }
