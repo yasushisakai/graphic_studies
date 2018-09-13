@@ -1,29 +1,34 @@
 class GlyphCollection {
   
-  // private PGraphics g;
+  private PGraphics g;
   private Glyph[] word;
-  private int w;
   private int h = 5;
 
   GlyphCollection(String _word){
     String uc = _word.toUpperCase();
     this.word = new Glyph[uc.length()];
-    this.w = 0;
+    int w = 0;
     for(int i = 0; i < uc.length(); i++){
       char c = uc.charAt(i);
-      Glyph g = mapFromAscii(c);
-      w += g.w + 1;  
+      Glyph gl = mapFromAscii(c);
+      w += gl.w + 1;  
       this.word[i] = g;
     } 
     w--;
+    this.g = createGraphics(w, this.h, P2D);
+    int cursor = 0;
+    this.g.beginDraw();
+    this.g.stroke(255);
+    this.g.noFill();
+    for(int i=0; i < uc.length; i++){
+      this.g.image(this.word[i].renderGraphics(), cursor, 0);
+      cursor += this.word[i].w + 1;
+    }
+    this.g.endDraw();
   }
 
-  void draw(int startX, int startY) {
-    int cx = startX;
-    for(Glyph g: this.word) {
-      g.render(cx, startY);  
-      cx += g.w + 1;
-    } 
+  PGraphics draw() {
+    return this.g;
   }
 }
 

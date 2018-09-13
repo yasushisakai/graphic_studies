@@ -31,8 +31,7 @@ void setup() {
 void draw(){
   background(0);
   
-  // FIXME: make glyphs to generate PGraphics (or PImage??)
-  title.draw(10, 10);
+  image(title.draw(), 10, 10);
 
   pushMatrix();
   translate(width/(networkSize * 2), height/(networkSize * 2));
