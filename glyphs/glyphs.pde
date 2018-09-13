@@ -4,13 +4,10 @@ int networkSize = 25;
 int major = 6;
 RoadNetwork rn;
 SidewalkNetwork sn;
-
-int unit; // TODO: clean
-int boxSize;
+Blocks blocks;
 
 void  settings(){
   size(800, 800, P3D);
-  // fullScreen();
   noSmooth();
 }
 
@@ -34,10 +31,6 @@ void setup() {
   mobs.addPedestrians(1000);
   mobs.addPEVs(400);
   mobs.addCars(100);
-
-
-  unit = width / 4;
-  boxSize = 140;
 }
 
 void draw(){
@@ -52,23 +45,9 @@ void draw(){
   mobs.draw();
   popMatrix();
 
-  pushStyle();
-  fill(0);
-  stroke(255);
-  for(int i = 0;i < 4; i++){
-    for(int j = 0; j < 4; j++){          
-      float x = unit * 0.5 + i * unit;
-      float y = unit * 0.5 + j * unit;
-      pushMatrix();
-      translate(x, y, 21);
-      box(boxSize, boxSize, 40);
-      popMatrix();
-    }
-  }
-  popStyle();
+  image(blocks.draw());
 
   title.render(10, 10);
-
 }
 
 void mouseReleased() {
