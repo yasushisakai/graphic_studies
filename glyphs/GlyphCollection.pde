@@ -1,4 +1,119 @@
-  Glyph[] G = new Glyph[]{
+class GlyphCollection {
+  
+  // private PGraphics g;
+  private Glyph[] word;
+  private int w;
+  private int h = 5;
+
+  GlyphCollection(String _word){
+    String uc = _word.toUpperCase();
+    this.word = new Glyph[uc.length()];
+    this.w = 0;
+    for(int i = 0; i < uc.length(); i++){
+      char c = uc.charAt(i);
+      Glyph g = mapFromAscii(c);
+      w += g.w + 1;  
+      this.word[i] = g;
+    } 
+    w--;
+  }
+
+  void draw(int startX, int startY) {
+    int cx = startX;
+    for(Glyph g: this.word) {
+      g.render(cx, startY);  
+      cx += g.w + 1;
+    } 
+  }
+}
+
+Glyph PEV = new Glyph("PEV", 3, new boolean[]{
+        true, false, true,
+        true, false, true,
+        true, false, true,
+        false, false, false,
+        true, true, true,
+        true, false, true,
+        true, false, true,
+        true, false, true,
+        true, false, true,
+        true, true, true,
+        false, false, false,
+        false, true, false,
+        false, true, false,
+        false, true, false,
+});
+
+Glyph bike = new Glyph("Bike", 3, new boolean[]{
+        false, true, false,
+        false, true, false,
+        false, true, false,
+        false, false, false,
+        true, true, true,
+        true, false, true,
+        true, false, true,
+        true, false, true,
+        true, false, true,
+        true, true, true,
+        false, false, false,
+        false, true, false,
+        false, true, false,
+        false, true, false,
+});
+
+Glyph[] human = new Glyph[] {
+  new Glyph("human0", 3, new boolean[]{
+        false, false, true,
+        true, true, false,
+  }),
+  new Glyph("human1", 3, new boolean[]{
+        false, true, false,
+        true, true, true,
+   
+  }),
+  new Glyph("human0", 3, new boolean[]{
+        true, false, false,
+        false, true, true,
+  })
+};
+
+Glyph car = new Glyph("car", 7, new boolean[]{
+  true, false, true, true, true, false, true,    
+  true, false, true, false, true, false, true,    
+  true, false, true, false, true, false, true,    
+  false, false, true, false, true, false, false,
+  true, true, true, false, true, true, true, 
+  true, false, false, false, false, false, true, 
+  true, false, false, false, false, false, true, 
+  true, false, false, false, false, false, true, 
+  true, false, false, false, false, false, true, 
+  true, false, false, false, false, false, true, 
+  true, true, true, false, true, true, true, 
+  false, false, true, true, true, false, false,
+  true, false, true, false, true, false, true,    
+  true, false, true, false, true, false, true,    
+  true, false, true, false, true, false, true,    
+});
+
+
+Glyph mapFromAscii(char c) {
+    byte b = byte(c);
+
+    if(b >= 65 && b < 91) {
+      return G[int(b) - 65 + 10];
+    } else if (b >= 48 && b < 58) {
+      return G[int(b) - 48];
+    } else if (b == 32) {
+      return G[36];
+    } else {
+      return G[36];
+    }
+}
+
+
+
+
+Glyph[] G = new Glyph[]{
     
     new Glyph("0", 4, new boolean[]{
       false, true, true, false,
@@ -252,113 +367,3 @@
       })
 };
 
-Glyph PEV = new Glyph("PEV", 3, new boolean[]{
-        true, false, true,
-        true, false, true,
-        true, false, true,
-        false, false, false,
-        true, true, true,
-        true, false, true,
-        true, false, true,
-        true, false, true,
-        true, false, true,
-        true, true, true,
-        false, false, false,
-        false, true, false,
-        false, true, false,
-        false, true, false,
-});
-
-Glyph bike = new Glyph("Bike", 3, new boolean[]{
-        false, true, false,
-        false, true, false,
-        false, true, false,
-        false, false, false,
-        true, true, true,
-        true, false, true,
-        true, false, true,
-        true, false, true,
-        true, false, true,
-        true, true, true,
-        false, false, false,
-        false, true, false,
-        false, true, false,
-        false, true, false,
-});
-
-Glyph[] human = new Glyph[] {
-  new Glyph("human0", 3, new boolean[]{
-        false, false, true,
-        true, true, false,
-  }),
-  new Glyph("human1", 3, new boolean[]{
-        false, true, false,
-        true, true, true,
-   
-  }),
-  new Glyph("human0", 3, new boolean[]{
-        true, false, false,
-        false, true, true,
-  })
-};
-
-Glyph car = new Glyph("car", 7, new boolean[]{
-  true, false, true, true, true, false, true,    
-  true, false, true, false, true, false, true,    
-  true, false, true, false, true, false, true,    
-  false, false, true, false, true, false, false,
-  true, true, true, false, true, true, true, 
-  true, false, false, false, false, false, true, 
-  true, false, false, false, false, false, true, 
-  true, false, false, false, false, false, true, 
-  true, false, false, false, false, false, true, 
-  true, false, false, false, false, false, true, 
-  true, true, true, false, true, true, true, 
-  false, false, true, true, true, false, false,
-  true, false, true, false, true, false, true,    
-  true, false, true, false, true, false, true,    
-  true, false, true, false, true, false, true,    
-});
-
-
-Glyph mapFromAscii(char c) {
-    byte b = byte(c);
-
-    if(b >= 65 && b < 91) {
-      return G[int(b) - 65 + 10];
-    } else if (b >= 48 && b < 58) {
-      return G[int(b) - 48];
-    } else if (b == 32) {
-      return G[36];
-    } else {
-      return G[36];
-    }
-}
-
-class GlyphCollection {
-  
-  private Glyph[] word;
-  private int w;
-  private int h = 5;
-
-  GlyphCollection(String _word){
-    String uc = _word.toUpperCase();
-    this.word = new Glyph[uc.length()];
-    this.w = 0;
-    for(int i = 0; i < uc.length(); i++){
-      char c = uc.charAt(i);
-      Glyph g = mapFromAscii(c);
-      w += g.w + 1;  
-      this.word[i] = g;
-    } 
-    w--;
-  }
-
-  void render(int startX, int startY) {
-    int cx = startX;
-    for(Glyph g: this.word) {
-      g.render(cx, startY);  
-      cx += g.w + 1;
-    } 
-  }
-}

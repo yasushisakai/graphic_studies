@@ -7,47 +7,40 @@ SidewalkNetwork sn;
 Blocks blocks;
 
 void  settings(){
-  size(800, 800, P3D);
+  // you need to specify P2D if using createGraphics(w,h, P3D);
+  size(800, 800, P2D);
   noSmooth();
 }
 
 void setup() {
-  // frameRate(60);
   frameRate(30);
   background(0);
-
   stroke(255);
   noFill();
   title = new GlyphCollection("city scope  mobility ver");
   rn = new RoadNetwork(networkSize, major);
   sn = new SidewalkNetwork(networkSize, major);
+  blocks = new Blocks(4);
   mobs = new MobilityAgentManager(0, rn, sn);
 
-    
-  mobs.addPedestrians(3);
-  mobs.addPEVs(3);
-  mobs.addCars(3);
-  
-  mobs.addPedestrians(1000);
-  mobs.addPEVs(400);
+  mobs.addPedestrians(500);
+  mobs.addPEVs(200);
   mobs.addCars(100);
 }
 
 void draw(){
   background(0);
+  
+  // FIXME: make glyphs to generate PGraphics (or PImage??)
+  title.draw(10, 10);
 
   pushMatrix();
   translate(width/(networkSize * 2), height/(networkSize * 2));
-  // sn.drawConnections();
-  // sn.drawNodes();
-  // rn.drawConnections();
   mobs.update();
   mobs.draw();
   popMatrix();
 
-  image(blocks.draw());
-
-  title.render(10, 10);
+  image(blocks.draw(), 0, 0);
 }
 
 void mouseReleased() {
