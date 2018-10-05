@@ -141,18 +141,17 @@ class PolyCurve {
     float dist = this.len * t;
     float tempDist = 0;
 
-    int i;
-    for (i = 0; i < this.curves.size(); i++ ){
-      float len = this.curves.get(i).len;
+    Curve c;
+    for (int i = 0; i < this.curves.size(); i++ ){
+      c = this.curves.get(i);
       
-      if(dist < tempDist + len){
+      if(dist <= tempDist + c.len){
         break;
-      } else {
-        tempDist += len;
       }
+      
+      tempDist += len;
     }
 
-    Curve c = this.curves.get(i);
     float tCurve= (dist - tempDist) / c.len;
     PVector r = c.pointAt(tCurve);
     float a = c.angleAt(tCurve);
