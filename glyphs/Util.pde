@@ -4,3 +4,7 @@ public float sigmoid(float t){
   float x = map(t, 0.0, 1.0, -10, 10);
   return 1.0 / (1.0 + pow(E, -x));
 }
+
+public PVector nodeToPVec(Node n) {
+  return new PVector(n.x, n.y, n.z);
+}

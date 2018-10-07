@@ -57,10 +57,8 @@ class BCurve extends Curve {
         this.e.x,
         this.e.y);
 
-    // ellipse(this.s.x,this.s.y, 3, 3);
-    // ellipse(this.sControl.x,this.sControl.y, 3, 3);
-    // ellipse(this.eControl.x,this.eControl.y, 3, 3);
-    // ellipse(this.e.x,this.e.y, 3, 3);
+    ellipse(this.s.x,this.s.y, 3, 3);
+    ellipse(this.e.x,this.e.y, 3, 3);
   }
 
   @Override

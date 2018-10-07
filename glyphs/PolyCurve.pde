@@ -4,11 +4,6 @@ class PolyCurve {
   ArrayList<Curve> curves; // this can be Line or BCurves
   float len;
 
-  // PolyCurve(ArrayList<Curve> curves){
-  //   this.curves = curves; 
-  //   this.len = this.getLength();
-  // }
-
   PolyCurve(ArrayList<Node> nodes){
 
     this.curves = new ArrayList<Curve>();
@@ -32,25 +27,6 @@ class PolyCurve {
       }
     }
   }
-
-  // FIXME
-  // void simplify() {
-  //   IntList deleteList = new IntList();
-  //   for(int i = 1; i < this.curves.size(); i++){
-  //     if(this.areLines(i-1, i)){
-  //       Line l = (Line)this.curves.get(i - 1);
-  //       Line m = (Line)this.curves.get(i);
-  //       float angle = PVector.angleBetween(l.direction(), m.direction());
-  //       if(angle == 0.0){ 
-  //         deleteList.append(i-1);
-  //         m.s = l.s;
-  //       }
-  //     }
-  //   } 
-  //   for(int i:deleteList){
-  //     this.curves.remove(i);
-  //   }
-  // }
 
   void rightShift(float shift){
     for(int i = 0; i < this.curves.size(); i ++){
@@ -137,19 +113,27 @@ class PolyCurve {
     return this.curves.get(0).s;
   }
 
+  PVector getEnd(){
+    Curve c = this.curves.get(this.curves.size()-1);
+    return c.e;
+  }
+
   float[] evalAt(float t) {
+
     float dist = this.len * t;
     float tempDist = 0;
 
-    Curve c;
-    for (int i = 0; i < this.curves.size(); i++ ){
-      c = this.curves.get(i);
+    Curve c = this.curves.get(0);
+
+    for (int i = 1; i < this.curves.size(); i++ ){
       
       if(dist <= tempDist + c.len){
         break;
+      } else {
+        tempDist += c.len;
       }
-      
-      tempDist += len;
+
+      c = this.curves.get(i);
     }
 
     float tCurve= (dist - tempDist) / c.len;

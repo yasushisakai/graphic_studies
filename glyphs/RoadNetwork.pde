@@ -85,7 +85,31 @@ class RoadNetwork {
         (Node)this.astar.nodes.get(end)
         ); 
 
-   return new PolyCurve(vertices); 
+    ArrayList<Node> cleanNodes = new ArrayList<Node>();
+    cleanNodes.add(vertices.get(0));
+
+    PVector s = nodeToPVec(vertices.get(0));
+    PVector m = nodeToPVec(vertices.get(1));
+    PVector e;
+
+    for(int i = 2; i<vertices.size(); i++){
+      e = nodeToPVec(vertices.get(i));
+
+      PVector dir0 = PVector.sub(m, s);
+      PVector dir1 = PVector.sub(e, m);
+      float angle = PVector.angleBetween(dir0, dir1);
+
+      if (angle != 0.0) {
+        cleanNodes.add(vertices.get(i - 1));
+      }
+
+      s = m;
+      m = e;
+    }
+
+    cleanNodes.add(vertices.get(vertices.size() - 1));
+
+   return new PolyCurve(cleanNodes); 
   }
 
 }
