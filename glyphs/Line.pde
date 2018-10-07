@@ -48,6 +48,8 @@ class Line extends Curve{
   @Override
   void draw() {
     line(this.s.x, this.s.y, this.e.x, this.e.y);
+    ellipse(this.s.x, this.s.y, 3, 3);
+    ellipse(this.e.x, this.e.y, 3, 3);
   }
 
   @Override

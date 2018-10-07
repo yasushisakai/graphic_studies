@@ -89,7 +89,7 @@ class MobilityAgent {
   }
 
   void draw() {
-    // this.drawPath(); 
+    this.drawPath(); 
     PGraphics whichG = this.g[(frameCount/3) % this.g.length];
     if(this.isVisible){
       pushMatrix();

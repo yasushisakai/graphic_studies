@@ -23,23 +23,22 @@ void setup() {
   blocks = new Blocks(4);
   mobs = new MobilityAgentManager(0, rn, sn);
 
-  mobs.addPedestrians(500);
-  mobs.addPEVs(200);
-  mobs.addCars(100);
+  // mobs.addPedestrians(500);
+  // mobs.addPEVs(200);
+  mobs.addCars(10);
 }
 
 void draw(){
   background(0);
   
-
   pushMatrix();
   translate(width/(networkSize * 2), height/(networkSize * 2));
   mobs.update();
   mobs.draw();
   popMatrix();
 
-  image(blocks.draw(), 0, 0);
-  image(title.draw(), 10, 10);
+  //image(blocks.draw(), 0, 0);
+  //image(title.draw(), 10, 10);
 }
 
 void mouseReleased() {
