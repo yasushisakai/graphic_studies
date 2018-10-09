@@ -32,6 +32,22 @@ class GlyphCollection {
   }
 }
 
+Glyph YES = new Glyph("YES", 5, new boolean[]{
+    false, true, true, true, false,
+    true, false, false, false, true, 
+    true, false, false, false, true, 
+    true, false, false, false, true, 
+    false, true, true, true, false,
+});
+
+Glyph NO = new Glyph("NO", 5, new boolean[]{
+    true, false, false, false, true, 
+    false, true, false, true, false,
+    false, false, true, false, false,
+    false, true, false, true, false,
+    true, false, false, false, true, 
+});
+
 Glyph PEV = new Glyph("PEV", 3, new boolean[]{
         true, false, true,
         true, false, true,
